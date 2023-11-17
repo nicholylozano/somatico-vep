@@ -1,4 +1,6 @@
 # Somatico-vep
+https://www.ensembl.org/info/docs/tools/vep/index.html
+https://www.ensembl.org/info/docs/tools/vep/script/vep_download.html#new
 
 ## Downloads
 
