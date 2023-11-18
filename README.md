@@ -19,16 +19,18 @@ aria2c -x 8 https://storage.googleapis.com/puga-reference/homo_sapiens_merged_11
 unzip homo_sapiens_merged_110_GRCh37.zip
 ```
 
-# hg38.fa
+# hg19.fa
+- download do hg19
 ```bash
-aria2c -x 5 https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
+aria2c -x 5 ariac -x 5 https://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz
 ```
+- descompactação do arquivo
 ```bash
-gunzip hg38.fa.gz
+gunzip hg19.fa.gz
 ```
 Movendo para diretório
 ```bash
-mv hg38.fa homo_sapiens_merged
+mv hg19.fa homo_sapiens_merged
 ```
 Liberando permissões
 ```bash
@@ -72,7 +74,7 @@ docker run -it --rm  -v $(pwd):/data ensemblorg/ensembl-vep vep \
 --dir_cache /data/ \
 --cache --offline \
 --fork 10 \
---fasta /data/homo_sapiens_merged/hg38.fa
+--fasta /data/homo_sapiens_merged/hg19.fa
 ```
 
 Código otimizado e com mais opções
@@ -80,20 +82,33 @@ Código otimizado e com mais opções
   
 ```bash
 docker run -it --rm  -v $(pwd):/data ensemblorg/ensembl-vep vep \
--i /data/WP312.filtered.vcf.gz \
--o /data/vep_output/WP312.filtered.everything.vep.tsv \
+-i /data/WP312.filtered.vcf.gz  \
+-o /data/vep_output/WP312.filtered.vep.vcf \
 --assembly GRCh37  \
---merged --pick \
---pick_allele \
---force_overwrite \
---tab \
---distance 0 \
---everything \
---individual all \
---dir_cache /data/ \
---cache --offline \
+--merged \
 --fork 16 \
---buffer_size 1000 \
---fasta /data/homo_sapiens_merged/hg38.fa
+--buffer_size 200 \
+--force_overwrite \
+--dir_cache /data/ \
+--offline \
+--cache \
+--no_intergenic \
+--distance 0 \
+--pick \
+--pick_allele \
+--individual all \
+--vcf \
+--symbol \
+--biotype \
+--hgvs \
+--numbers \
+--af \
+--af_gnomadg \
+--variant_class \
+--sift b \
+--polyphen b \
+--check_existing \
+--fields "Location,SYMBOL,Consequence,Feature,BIOTYPE,HGVSc,HGVSp,EXON,INTRON,VARIANT_CLASS,SIFT,PolyPhen,AF,gnomADg_AF,CLIN_SIG,SOMATIC,PHENO" \
+--fasta /data/homo_sapiens_merged/hg19.fa
 ```
 
